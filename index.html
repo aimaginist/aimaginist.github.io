@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AImaginist | AI x Human Stories</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #D4AF37;
+            --cyan: #00CED1;
+            --teal: #008B8B;
+            --dark: #1a1a2e;
+            --darker: #0f0f1e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://user-gen-media-assets.s3.amazonaws.com/seedream_images/814c8e50-6ef1-4bcc-b352-591dd2390bd3.png') center/cover;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: url('https://user-gen-media-assets.s3.amazonaws.com/seedream_images/8a28d17f-b64b-4368-9ce3-4d0838126935.png') center/cover,
+                        radial-gradient(circle at 50% 50%, rgba(0, 206, 209, 0.2) 0%, transparent 50%);
+            background-blend-mode: overlay;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, var(--darker) 100%);
+            z-index: 0;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            animation: fadeInScale 1s ease-out;
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0, 206, 209, 0.3));
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--cyan);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--light);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cyan) 100%);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 206, 209, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--cyan);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cyan);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--cyan);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .card {
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 206, 209, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 206, 209, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyan);
+            box-shadow: 0 20px 40px rgba(0, 206, 209, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--cyan);
+            position: relative;
+        }
+
+        .card p {
+            color: var(--light);
+            opacity: 0.9;
+            position: relative;
+        }
+
+        /* Visual Identity Section */
+        .visual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .visual-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(26, 26, 46, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 206, 209, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-swatch {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-gold { background: var(--gold); }
+        .color-cyan { background: var(--cyan); }
+        .color-teal { background: var(--teal); }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            color: var(--light);
+        }
+
+        .contact-item a {
+            color: var(--cyan);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--gold);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--cyan);
+        }
+
+        .social-link:hover {
+            background: var(--cyan);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--darker);
+            color: var(--gray);
+            margin-top: 5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 90vh;
+            }
+
+            .logo-container img {
+                max-width: 200px;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="logo-container">
+            <img src="main-logo.png" alt="AImaginist Logo">
+        </div>
+        <h1>AImaginist</h1>
+        <p class="tagline">AI x Human Stories</p>
+        <p class="subtitle">Where Technology Meets Creativity. Pioneering the Future of Cinematic Storytelling Through AI-Powered Short Films.</p>
+        <div class="cta-buttons">
+            <a href="#about" class="btn btn-primary">Discover Our Mission</a>
+            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- Who Are We -->
+    <section id="about" class="section">
+        <h2 class="section-title">Who Are We?</h2>
+        <p class="section-subtitle">A Bold Vision for the Future of Filmmaking</p>
+        
+        <div class="cards">
+            <div class="card">
+                <span class="card-icon">🎬</span>
+                <h3>AI-Powered Film Studio</h3>
+                <p>We're an independent short film studio pioneering the fusion of artificial intelligence and human creativity. Every film we create demonstrates the symbiosis between cutting-edge AI technology and timeless storytelling craft.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🤖</span>
+                <h3>Technology Amplifies, Not Replaces</h3>
+                <p>Our philosophy is simple: AI is a brush, not the painter. We believe technology should amplify human creativity, enabling filmmakers to bring impossible stories to life while maintaining emotional resonance and artistic vision.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🎨</span>
+                <h3>Filmmakers & Educators</h3>
+                <p>Beyond creating films, we're building a community. We share transparent behind-the-scenes processes, tool tutorials, and insights to empower the next generation of AI filmmakers worldwide.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who Do We Serve -->
+    <section class="section">
+        <h2 class="section-title">Who Do We Serve?</h2>
+        <p class="section-subtitle">Our Community of Creators and Innovators</p>
+        
+        <div class="cards">
+            <div class="card">
+                <span class="card-icon">🎥</span>
+                <h3>Independent Filmmakers</h3>
+                <p>Creators who want to push boundaries without Hollywood budgets. We show you how AI tools like Runway, Midjourney, and Dzine.ai can bring your wildest visions to life on an indie budget.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">💡</span>
+                <h3>Creative Technologists</h3>
+                <p>Tech-savvy artists fascinated by the intersection of AI and creativity. Join us to explore the cutting edge of generative AI video, character consistency, and AI-driven storytelling techniques.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🌟</span>
+                <h3>Film Enthusiasts</h3>
+                <p>Audiences who crave innovative stories that couldn't exist without AI. Experience emotionally resonant short films that showcase the unprecedented possibilities when technology meets human imagination.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🎓</span>
+                <h3>Aspiring AI Filmmakers</h3>
+                <p>Students and learners eager to master AI filmmaking. Access our tutorials, tool comparisons, and transparent production processes to fast-track your journey into this emerging field.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Makes Us Different -->
+    <section class="section">
+        <h2 class="section-title">What Makes Us Different?</h2>
+        <p class="section-subtitle">Our Unique Approach to AI Filmmaking</p>
+        
+        <div class="cards">
+            <div class="card">
+                <span class="card-icon">📖</span>
+                <h3>Story-First Philosophy</h3>
+                <p>While others focus on tech specs, we prioritize narrative. Every AImaginist film starts with a compelling human story—AI is just the tool we use to tell it with unprecedented visual creativity.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🔍</span>
+                <h3>Radical Transparency</h3>
+                <p>We share everything: failed renders, tool costs ($150-200/month testing), character consistency struggles (92-95% accuracy). Our behind-the-scenes content gives you the real, unfiltered filmmaking journey.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🎯</span>
+                <h3>Quality Over Quantity</h3>
+                <p>We release one meticulously crafted 3-5 minute film every 2 weeks. No rushed content. Each film receives the production care it deserves, proving AI can achieve cinematic quality.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🤝</span>
+                <h3>Community-Driven</h3>
+                <p>AImaginist isn't just a studio—it's a movement. We feature community spotlights, host open discussions, respond to every comment, and build alongside fellow AI filmmakers rather than competing.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🔬</span>
+                <h3>Tool-Agnostic Testing</h3>
+                <p>We test and compare every major AI filmmaking tool: Runway Gen-3/4, Kling AI, Pika, Luma Dream Machine, Dzine.ai. Our reviews are honest, data-driven, and help you choose the right tools.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🌍</span>
+                <h3>Global Accessibility</h3>
+                <p>Based in India, thinking globally. We democratize AI filmmaking education, making cutting-edge techniques accessible to creators worldwide—regardless of location or traditional film school access.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visual Identity -->
+    <section class="section" style="position: relative;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://user-gen-media-assets.s3.amazonaws.com/seedream_images/6845f848-110e-4988-b91c-686cc9b7a839.png') center/cover; opacity: 0.1; z-index: 0; border-radius: 20px;"></div>
+        <div style="position: relative; z-index: 1;">
+        <h2 class="section-title">Our Visual Identity</h2>
+        <p class="section-subtitle">Where Art Meets Technology</p>
+        
+        <div class="visual-grid">
+            <div class="visual-item">
+                <div class="color-swatch color-gold"></div>
+                <h3>Gold</h3>
+                <p>Human Creativity<br>Warmth & Craft</p>
+            </div>
+            
+            <div class="visual-item">
+                <div class="color-swatch color-cyan"></div>
+                <h3>Cyan</h3>
+                <p>AI Technology<br>Innovation & Future</p>
+            </div>
+            
+            <div class="visual-item">
+                <div class="color-swatch color-teal"></div>
+                <h3>Teal</h3>
+                <p>The Fusion<br>Symbiosis & Balance</p>
+            </div>
+        </div>
+
+        <div class="cards" style="margin-top: 3rem;">
+            <div class="card">
+                <span class="card-icon">🎨</span>
+                <h3>Design Philosophy</h3>
+                <p><strong>Modern Minimalism:</strong> Clean, professional layouts that let content breathe. Cinematic visuals with high contrast.</p>
+                <p><strong>Human-AI Fusion:</strong> Logo depicts human silhouette merging with digital particles and film reel—representing our core mission.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">✨</span>
+                <h3>Brand Aesthetic</h3>
+                <p><strong>Typography:</strong> Sans-serif fonts (Segoe UI, Helvetica) for modernity and readability.</p>
+                <p><strong>Imagery:</strong> High-quality film stills, behind-the-scenes footage, AI-generated concept art showcasing process.</p>
+            </div>
+            
+            <div class="card">
+                <span class="card-icon">🎬</span>
+                <h3>Content Style</h3>
+                <p><strong>Tone:</strong> Professional yet authentic, educational yet inspiring, technical yet accessible.</p>
+                <p><strong>Voice:</strong> We speak directly to creators—sharing vulnerabilities, wins, and genuine learnings.</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Mission Stats 
+    <section class="section">
+        <h2 class="section-title">Our Commitment</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">1</div>
+                <div class="stat-label">New Film Every 2 Weeks</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Transparency in Process</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Possibilities with AI</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Films Per Year Target</div>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Let's Create Together</h2>
+        <p class="section-subtitle">Join the AI Filmmaking Revolution</p>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <span>📧</span>
+                <a href="mailto:hello@aimaginist.studio">hello@aimaginist.studio</a>
+            </div>
+            <div class="contact-item">
+                <span>🌐</span>
+                <span>Based in Chennai/Mumbai, India | Serving Creators Worldwide</span>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://www.youtube.com/@aimaginist.studio" class="social-link" title="YouTube" target="_blank">▶</a>
+            <a href="https://instagram.com/aimaginist.studio" class="social-link" title="Instagram" target="_blank">📷</a>
+            <a href="https://linkedin.com/company/aimaginist" class="social-link" title="LinkedIn" target="_blank">in</a>
+            <a href="https://x.com/AImaginistLab" class="social-link" title="Twitter" target="_blank">𝕏</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <h3 style="color: var(--cyan); margin-bottom: 1rem;">Ready to Start Your Journey?</h3>
+            <a href="https://linktr.ee/aimaginist" class="btn btn-primary" target="_blank">Watch Our Films</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 AImaginist. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            🎬 AI x Human Stories | Where Technology Meets Creativity 🤖
+        </p>
+    </footer>
+</body>
+</html>
